@@ -59,14 +59,14 @@ class PurchaseAdmin(admin.ModelAdmin):
 class ProductSaleAdmin(admin.ModelAdmin):
     model = ProductSale
     list_display = (
-        'id', 'get_sales', 'created_by',
+        'id', 'get_sales', 'paid_in_cash', 'created_by',
         'created_at', 'updated_at'
     )
 
     fieldsets = (
         (None, {
             'fields': (
-                'sales', 'created_by',
+                'sales', 'paid_in_cash', 'created_by',
             )
         }),
     )

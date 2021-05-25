@@ -45,6 +45,7 @@ class Purchase(models.Model):
 
 class ProductSale(models.Model):
     sales = models.ManyToManyField(Sale)
+    paid_in_cash = models.BooleanField(default=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)

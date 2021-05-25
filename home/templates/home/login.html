@@ -1,0 +1,113 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <div class="container-fuild">
+        <div class="page-header" style="background-image: url({% static 'home/images/miscellaneous/page-header.png' %})">
+            <div class="container">
+                <h1 class="page-title">Login<span class="mt-3">Login with your correct email and password</span></h1>
+            </div><!-- End .container -->
+        </div>
+        <nav aria-label="breadcrumb">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Login</li>
+                </ol>
+            </div>
+        </nav>
+
+
+    </div>
+
+
+    <!-- login Content -->
+    <section class="pro-content account-content pt-3" id="MTSLogin">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                    {#                    <h2>Staff Signin</h2>#}
+                    <div class="registration-process">
+                        <form @submit.prevent="login" method="post" ref="loginForm">
+                            {% csrf_token %}
+                            <div class="col-12">
+                                <div class="alert alert-info" v-if="error">
+                                    <i class="fa fa-info-circle"></i> [[message]]
+                                </div>
+                            </div>
+                            {% if error %}
+                                <div class="col-12">
+                                    <div class="alert alert-danger">
+                                        <i class="fa fa-info-circle"></i> {{ message }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="from-group row mb-3">
+                                <div class="input-group col-12">
+                                    <label class="w-100">Email</label>
+                                    <input v-model="email" type="email" name="email" class="form-control" placeholder="Enter Your Email" required>
+                                </div>
+                            </div>
+                            <div class="from-group row mb-3">
+                                <div class="input-group col-12">
+                                    <label class="w-100">Password</label>
+                                    <input v-model="password" type="password" name="password" class="form-control" placeholder="Enter Your Password" required>
+                                </div>
+                            </div>
+                            <div class="from-group">
+                                <button type="submit" class="btn btn-primary swipe-to-top">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+    <script>
+        new Vue({
+            el: '#MTSLogin',
+            delimiters: ['[[', ']]'],
+            data(){
+                return {
+                    error: false,
+                    message: '',
+                    email: '',
+                    password: ''
+                }
+            },
+            methods: {
+                login(){
+                    if(!this.email || !this.password){
+                        return this.displayMsg("Complete all fields")
+                    }
+                    if(this.password.length <= 8){
+                        return this.displayMsg("Password should be greater than 8 characters")
+                    }
+                    this.$refs['loginForm'].submit()
+                },
+                displayMsg(message=''){
+                    this.error = true;
+                    this.message = message;
+                    $('html, body').animate({
+                        scrollTop: "0"
+                    }, 1000)
+                },
+                loadAvatar(event){
+                    const file = event.target.files[0];
+                    this.user.avatar = event.target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (e)=>{
+                        $('#mts_avatar').attr('src', e.target.result)
+                    };
+                    reader.readAsDataURL(file)
+                }
+            }
+        })
+    </script>
+{% endblock %}
