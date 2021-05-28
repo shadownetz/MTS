@@ -1,0 +1,98 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %} Add Product {% endblock %}
+{% block page-title %}Add Product{% endblock %}
+{% block nav-link-products %} active {% endblock %}
+{% block nav-link-products-list %} active {% endblock %}
+{% block style %}
+    <style>
+        #product-img-block{
+            background: no-repeat center center;
+            background-size: contain;
+        }
+        #product-img-block:hover{
+            cursor: pointer;
+        }
+        #product-img-block input[type='file']{
+            position: absolute;
+            visibility: hidden;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12 col-xl-12">
+            <div class="card card-custom gutter-b bg-transparent shadow-none border-0" >
+                <div class="card-header align-items-center  border-bottom-dark px-0">
+                    <div class="card-title mb-0">
+                        <h3 class="card-label mb-0 font-weight-bold text-body">Add a Product
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-xl-12">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                    <div class="card card-custom gutter-b bg-white border-0" >
+                        <div class="card-header border-0 align-items-center">
+                            <h3 class="card-label mb-0 font-weight-bold text-body">Product Information
+                            </h3>
+                        </div>
+                        <div class="card-body" id="printableTable">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <h6>Upload Product Image</h6>
+                                        <label id="product-img-block" for="id_image" class="bg-light h-300px mb-3  d-flex justify-content-center align-items-center">
+                                            {{ productForm.image }}
+                                            <i class="fas fa-plus"></i>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="name">Product Name</label>
+                                            {{ productForm.name }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_code">Product Code</label>
+                                            {{ productForm.code }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Categories</label>
+                                            {{ productForm.category }}
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-5 mt-5">
+                                                <button type="submit" class="btn btn-primary">Add Product</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block script %}
+    <script>
+        $('#id_image').on('change', function(event){
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e)=>{
+                $($(this).parent()).css('background-image', `url(${e.target.result})`)
+            };
+            reader.readAsDataURL(file)
+        })
+    </script>
+{% endblock %}
