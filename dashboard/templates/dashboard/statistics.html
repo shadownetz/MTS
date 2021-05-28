@@ -1,0 +1,165 @@
+{% extends 'dashboard/base.html' %}
+{% block title %} Statistics {% endblock %}
+{% block page-title %}Statistics{% endblock %}
+{% block nav-link-stats %} active {% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-6 col-xl-3">
+            <div class="card card-custom gutter-b bg-white border-0 theme-circle theme-circle-primary">
+
+                <div class="card-body">
+                    <h3 class="text-body font-weight-bold">Orders</h3>
+                    <div class="mt-3">
+                        <div class="d-flex align-items-center">
+															<span class="text-dark font-weight-bold font-size-h1 mr-3"><span
+                                                                    class="counter" data-target="400">0</span></span>
+
+                        </div>
+                        <div class="text-black-50 mt-3">Compare to last year (2019)</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-3">
+            <div class="card card-custom gutter-b bg-white border-0 theme-circle theme-circle theme-circle-secondary">
+
+                <div class="card-body">
+                    <h3 class="text-body font-weight-bold">Products</h3>
+                    <div class="mt-3">
+                        <div class="d-flex align-items-center">
+															<span class="text-dark font-weight-bold font-size-h1 mr-3"><span
+                                                                    class="counter" data-target="600">0</span></span>
+
+                        </div>
+                        <div class="text-black-50 mt-3">Compare to last year (2019)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-3">
+            <div class="card card-custom gutter-b bg-white border-0 theme-circle theme-circle-success">
+
+                <div class="card-body">
+                    <h3 class="text-body font-weight-bold">Users</h3>
+                    <div class="mt-3">
+                        <div class="d-flex align-items-center">
+															<span class="text-dark font-weight-bold font-size-h1 mr-3"><span
+                                                                    class="counter" data-target="1000">0</span></span>
+
+                        </div>
+                        <div class="text-black-50 mt-3">Compare to last year (2019)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-3">
+            <div class="card card-custom gutter-b bg-white border-0 theme-circle theme-circle-info">
+
+                <div class="card-body">
+                    <h3 class="text-body font-weight-bold">Sales</h3>
+                    <div class="mt-3">
+                        <div class="d-flex align-items-center">
+															<span class="text-dark font-weight-bold font-size-h1 mr-3">$<span
+                                                                    class="counter" data-target="6800">0</span></span>
+                            <span
+                                    class="font-weight-bold font-size-h4 text-danger">8.2</span>
+                            <span class="svg-icon text-danger">
+																<svg width="20px" height="20px" viewBox="0 0 16 16"
+                                                                     class="bi bi-arrow-up-short" fill="currentColor"
+                                                                     xmlns="http://www.w3.org/2000/svg">
+																	<path fill-rule="evenodd"
+                                                                          d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
+																</svg>
+															</span>
+                        </div>
+                        <div class="text-black-50 mt-3">Compare to last year (2019)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card card-custom gutter-b bg-white border-0">
+                <div class="card-header align-items-center  border-0">
+                    <div class="card-title mb-0">
+                        <h3 class="card-label font-weight-bold mb-0 text-body">Recent Cash Flow
+                        </h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="timeline timeline-6 mt-3">
+                        <div class="timeline-item align-items-start">
+                            <div class="timeline-label font-weight-bold text-black-50 ">08:42</div>
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless text-warning icon-xl"></i>
+                            </div>
+                            <div class="font-weight-mormal timeline-content text-muted pl-3">Outlines keep you honest. And keep structure</div>
+                        </div>
+                        <div class="timeline-item align-items-start">
+                            <div class="timeline-label font-weight-bold text-black-50">10:00</div>
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless text-success icon-xl"></i>
+                            </div>
+                            <div class="timeline-content d-flex">
+                                <span class="font-weight-bolder text-body pl-3">AEOL meeting</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item align-items-start">
+                            <div class="timeline-label font-weight-bold text-black-50 ">14:37</div>
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless text-danger icon-xl"></i>
+                            </div>
+                            <div class="timeline-content font-weight-bold text-body pl-3">Make deposit
+                                <a href="index.html#" class="text-primary">USD 700</a>. to ESL</div>
+
+                        </div>
+
+                        <div class="timeline-item align-items-start">
+                            <div class="timeline-label font-weight-bold text-black-50 ">16:50</div>
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless text-primary icon-xl"></i>
+                            </div>
+                            <div class="timeline-content font-weight-mormal text-muted pl-3">Indulging in poorly driving and keep structure keep great</div>
+                        </div>
+                        <div class="timeline-item align-items-start">
+                            <div class="timeline-label font-weight-bold text-black-50">21:03</div>
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless text-danger icon-xl"></i>
+                            </div>
+                            <div class="timeline-content font-weight-bold text-body pl-3">New order placed
+                                <a href="index.html#" class="text-primary">#XF-2356</a>.</div>
+                        </div>
+                        <div class="timeline-item align-items-start">
+                            <div class="timeline-label font-weight-bold text-black-50">23:07</div>
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless text-info icon-xl"></i>
+                            </div>
+                            <div class="timeline-content font-weight-mormal text-muted pl-3">Outlines keep and you honest. Indulging in poorly driving</div>
+                        </div>
+                        <div class="timeline-item align-items-start">
+                            <div class="timeline-label font-weight-bold text-black-50">16:50</div>
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless text-primary icon-xl"></i>
+                            </div>
+                            <div class="timeline-content font-weight-mormal text-muted pl-3">Indulging in poorly driving and keep structure keep great</div>
+                        </div>
+
+                        <div class="timeline-item align-items-start">
+                            <div class="timeline-label font-weight-bold text-black-50">21:03</div>
+                            <div class="timeline-badge">
+                                <i class="fa fa-genderless text-danger icon-xl"></i>
+                            </div>
+                            <div class="timeline-content font-weight-bold text-body pl-3">New order placed
+                                <a href="index.html#" class="text-primary">#XF-2356</a>.</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -113,13 +113,13 @@ class CashFlowAdmin(admin.ModelAdmin):
 class ProductCategoryAdmin(admin.ModelAdmin):
     model = ProductCategory
     list_display = (
-        'id', 'name', 'created_at'
+        'id', 'name', 'description', 'created_at'
     )
 
     fieldsets = (
         (None, {
             'fields': (
-                'name',
+                'name', 'description'
             )
         }),
     )

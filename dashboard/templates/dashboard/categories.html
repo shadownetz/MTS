@@ -1,0 +1,236 @@
+{% extends 'dashboard/base.html' %}
+{% block title %} Product Categories {% endblock %}
+{% block page-title %}Categories{% endblock %}
+{% block nav-link-products %} active {% endblock %}
+{% block nav-link-products-categories %} active {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12 col-xl-12">
+            <div class="card card-custom gutter-b bg-transparent shadow-none border-0" >
+                <div class="card-header align-items-center  border-bottom-dark px-0">
+                    <div class="card-title mb-0">
+                        <h3 class="card-label mb-0 font-weight-bold text-body">Product Categories
+                        </h3>
+                    </div>
+                    <div class="icons d-flex">
+                        <button class="btn ml-2 p-0"
+                                id="kt_notes_panel_toggle"
+                                data-toggle="tooltip" title=""
+                                data-placement="right"
+                                data-original-title="Check out more demos"
+                        >
+                            <span class="bg-secondary h-30px font-size-h5 w-30px d-flex align-items-center justify-content-center  rounded-circle shadow-sm ">
+																<svg width="25px" height="25px" viewBox="0 0 16 16" class="bi bi-plus white" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+																	<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+																  </svg>
+															</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 ">
+            <div class="card card-custom gutter-b bg-white border-0" >
+                <div class="card-body" >
+                    {% if categories %}
+                        <div>
+                            <div class="table-responsive" id="printableTable">
+                                <table id="productUnitTable" class="display ">
+                                    <thead class="text-body">
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th class="text-center">Category Name</th>
+                                        <th class="text-center">Description</th>
+                                        <th class="no-sort text-right">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="kt-table-tbody text-dark">
+                                    {% for category in categories %}
+                                        <tr class="kt-table-row kt-table-row-level-0">
+                                            <td>{{ forloop.counter }}</td>
+                                            <td class="text-center">
+                                                {{ category.name }}
+                                            </td>
+                                            <td>
+                                                {{ category.description }}
+                                            </td>
+                                            <td>
+                                                <div class="card-toolbar text-right">
+                                                    <button class="btn p-0 shadow-none" type="button" id="dropdowneditButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																					<span class="svg-icon">
+																						<svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-three-dots text-body" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+																							<path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
+																						</svg>
+																					</span>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdowneditButton2"  style="position: absolute; transform: translate3d(1001px, 111px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                        <input type="hidden" value="{{ category.name }}">
+                                                        <input type="hidden" value="{{ category.description }}">
+                                                        <input type="hidden" value="{{ category.id }}">
+                                                        <a href="javascript:void(0)" class="dropdown-item click-edit click-edit-category" data-toggle="tooltip" title="" data-placement="right"
+                                                           data-original-title="edit category">Edit</a>
+                                                        <a class="dropdown-item confirm-delete" title="Delete" href="{% url 'dashboard:delete_category' %}?id={{ category.id }}">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-12 text-center">
+                            <h5>categories list is empty</h5>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="kt_notes_panel" class="offcanvas offcanvas-right kt-color-panel p-5">
+        <div class="offcanvas-header d-flex align-items-center justify-content-between pb-3">
+            <h4 class="font-size-h4 font-weight-bold m-0">Add Product Category
+            </h4>
+            <a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light btn-hover-primary" id="kt_notes_panel_close">
+                <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
+                </svg>
+            </a>
+        </div>
+        <form id="categoryForm" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="border-dark p-3 mb-3">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="home-border" role="tabpanel" aria-labelledby="home-tab-border">
+                                <div class="form-group">
+                                    <label class="text-dark" for="categoryName">Name of the Product Category</label>
+                                    <input type="text" name="name" class="form-control" id="categoryName" aria-describedby="textHelp1">
+                                    <small id="textHelp1" class="form-text text-muted">please enter your product Category Name</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-dark" >Short Description (100 characters max)</label>
+                                    <textarea name="description" maxlength="100" class="form-control" id="label-textarea1" rows="6" placeholder="Describe this category"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="category-add-formBtn" class="btn btn-primary">Add category</button>
+        </form>
+    </div>
+    <div id="kt_notes_panel2" class="editpopup offcanvas offcanvas-right kt-color-panel p-5">
+        <div class="offcanvas-header d-flex align-items-center justify-content-between pb-3">
+            <h4 class="font-size-h4 font-weight-bold m-0">Edit Category
+            </h4>
+            <a href="javascript:void(0)" class="btn btn-sm btn-icon btn-light btn-hover-primary kt_notes_panel_close" id="kt_notes_panel_close2">
+                <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
+                </svg>
+            </a>
+        </div>
+        <form id="EcategoryForm" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="border-dark p-3 mb-3">
+                        <div class="tab-content" id="v-pills-tabContent1">
+                            <div class="tab-pane fade show active" id="home-border1" role="tabpanel" aria-labelledby="home-tab-border1">
+                                <div class="form-group">
+                                    <label class="text-dark" for="categoryName">Name of the Product Category</label>
+                                    <input type="text" name="name" class="form-control" id="EcategoryName" aria-describedby="textHelp1">
+                                    <small id="textHelp1" class="form-text text-muted">please enter your product Category Name</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-dark" >Short Description (100 characters max)</label>
+                                    <textarea name="description" maxlength="100" class="form-control" id="e-label" rows="6" placeholder="Describe this category"></textarea>
+                                </div>
+                                <input type="hidden" name="edit_id" id="edit_id">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="e-category-add-formBtn" class="btn btn-primary">Edit category</button>
+        </form>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('#category-add-formBtn').on('click', function(event){
+            event.preventDefault();
+            if(!$('#categoryName').val()){
+                return dispMessage()
+            }
+            $('#categoryForm').submit()
+        });
+        const edit_cat_name = $('#EcategoryName');
+        const edit_cat_descp = $('#e-label');
+        const edit_cat_form = $('#EcategoryForm');
+        $('#e-category-add-formBtn').on('click', function(event){
+            event.preventDefault();
+            if(!edit_cat_name.val()){
+                return dispMessage()
+            }
+            edit_cat_form.submit()
+        });
+        $('.click-edit-category').on('click', function(){
+            const parentElem = $(this).parent();
+            const input_fields = $(parentElem).children('input');
+            const name = $(input_fields[0]).val();
+            const descp = $(input_fields[1]).val();
+            const edit_id = $(input_fields[2]).val();
+            edit_cat_name.val(name);
+            edit_cat_descp.val(descp);
+            $('#edit_id').val(edit_id)
+        });
+        $(".confirm-delete").on("click", function (event) {
+            event.preventDefault();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                type: "warning", showCancelButton: !0,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+                confirmButtonClass: "btn btn-primary",
+                cancelButtonClass: "btn btn-danger ml-1",
+                buttonsStyling: !1
+            })
+                .then((t)=> {
+                    if(t.value){
+                        window.location.href = $(this).attr('href');
+                    }else{
+                        t.dismiss === Swal.DismissReason.cancel && Swal.fire({
+                            title: "Cancelled",
+                            text: "Operation cancelled:)",
+                            type: "error",
+                            confirmButtonClass: "btn btn-success"
+                        })
+                    }
+                })
+        });
+
+        function dispMessage(){
+            return Swal.fire({
+                title: "Oops!",
+                type: 'warning',
+                text: "Fill in the category's name",
+                confirmButtonClass: "btn btn-primary",
+                buttonsStyling: !1
+            })
+        }
+    </script>
+{% endblock %}

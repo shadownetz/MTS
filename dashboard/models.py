@@ -10,6 +10,7 @@ def product_image_upload_path(instance, filename):
 
 class ProductCategory(models.Model):
     name = models.CharField(max_length=30, unique=True)
+    description = models.TextField(max_length=100, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

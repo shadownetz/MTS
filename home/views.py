@@ -30,9 +30,12 @@ def mts_login(request):
         'message': 'Invalid Email or Password'
     }
     if request.method == 'POST':
+        next_url = request.POST['next']
         user = authenticate(request, email=request.POST['email'], password=request.POST['password'])
         if user is not None:
             login(request, user)
+            if next_url:
+                return redirect(next_url)
             return redirect('dashboard:index')
         else:
             response['error'] = True
