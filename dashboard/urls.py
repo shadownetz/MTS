@@ -23,6 +23,9 @@ urlpatterns = [
     path('sales', sales, name='sales'),
     path('sales/delete', sales_delete, name='sales_delete'),
 
+    path('staffs', staffs, name='staffs'),
+    path('staffs/manage', staff_manage, name='staffs_manage'),
+
     path('logout', signout, name='logout'),
 
     path('api/purchase/add', add_purchase, name='api_purchase_add'),

@@ -3,6 +3,7 @@ from django.contrib.auth import logout
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from .models import *
+from home.models import User
 from .forms import (AddProductForm, PurchaseForm)
 
 
@@ -147,6 +148,31 @@ def sales_delete(request):
     except (KeyError, ProductSale.DoesNotExist, Sale.DoesNotExist):
         pass
     return redirect('dashboard:sales')
+
+
+def staffs(request):
+    all_users = User.objects.all()
+    return render(request, 'dashboard/user/users.html', {
+        'users': all_users
+    })
+
+
+def staff_manage(request):
+    user_id = request.GET.get('id')
+    action = request.GET.get('action')
+    if action == '0':
+        try:
+            user = User.objects.get(pk=user_id)
+            user.is_active = not user.is_active
+            user.save()
+        except User.DoesNotExist:
+            pass
+    elif action == '1':
+        try:
+            User.objects.get(pk=user_id).delete()
+        except User.DoesNotExist:
+            pass
+    return redirect('dashboard:staffs')
 
 
 def signout(request):
