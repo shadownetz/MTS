@@ -39,6 +39,7 @@
                                     <tr>
                                         <th>S/N</th>
                                         <th class="text-center">Name</th>
+                                        <th class="text-center">In Stock</th>
                                         <th class="text-center">Category</th>
                                         <th class="text-center">Product Code</th>
                                         <th class="text-center">Product Image</th>
@@ -51,6 +52,9 @@
                                             <td>{{ forloop.counter }}</td>
                                             <td class="text-center">
                                                 {{ product.name }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ product.quantity }}
                                             </td>
                                             <td class="text-center">
                                                 {{ product.category }}

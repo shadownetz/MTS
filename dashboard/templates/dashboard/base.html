@@ -216,7 +216,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item {% block nav-link-sales %}{% endblock %}">
                                     <a  class="nav-link" data-toggle="collapse" href="javascript:void(0)" role="button"
                                         aria-expanded="false" data-target="#sales" aria-controls="order">
 										<span class="svg-icon nav-icon">
@@ -228,7 +228,7 @@
                                     <div class="collapse nav-collapse" id="sales"  data-parent="#accordion">
                                         <ul class="nav flex-column">
                                             <li class="nav-item">
-                                                <a href="javascript:void(0)" class="nav-link sub-nav-link">
+                                                <a href="{% url 'dashboard:sales' %}" class="nav-link sub-nav-link {% block nav-link-sales-list %}{% endblock %}">
 													<span class="svg-icon nav-icon d-flex justify-content-center">
 														<svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
 															<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -237,16 +237,16 @@
                                                     <span class="nav-text">List</span>
                                                 </a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a href="javascript:void(0)" class="nav-link sub-nav-link">
-													<span class="svg-icon nav-icon d-flex justify-content-center">
-														<svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
-															<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-														  </svg>
-													</span>
-                                                    <span class="nav-text">Manage Sales</span>
-                                                </a>
-                                            </li>
+{#                                            <li class="nav-item">#}
+{#                                                <a href="javascript:void(0)" class="nav-link sub-nav-link">#}
+{#													<span class="svg-icon nav-icon d-flex justify-content-center">#}
+{#														<svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">#}
+{#															<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>#}
+{#														  </svg>#}
+{#													</span>#}
+{#                                                    <span class="nav-text">Manage Sales</span>#}
+{#                                                </a>#}
+{#                                            </li>#}
                                         </ul>
                                     </div>
                                 </li>

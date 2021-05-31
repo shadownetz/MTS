@@ -5,14 +5,14 @@ from .models import *
 class ProductAdmin(admin.ModelAdmin):
     model = Product
     list_display = (
-        'id', 'name', 'category', 'code', 'image', 'created_at',
+        'id', 'name', 'category', 'code', 'quantity', 'image', 'created_at',
         'updated_at'
     )
 
     fieldsets = (
         (None, {
             'fields': (
-                'name', 'category', 'code', 'image',
+                'name', 'category', 'code', 'quantity', 'image',
             )
         }),
     )

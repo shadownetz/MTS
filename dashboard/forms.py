@@ -23,17 +23,17 @@ class AddProductForm(forms.ModelForm):
 class PurchaseForm(forms.ModelForm):
     class Meta:
         model = Purchase
-        exclude = ['created_at']
+        exclude = ['created_at', 'quantity', 'product']
         widgets = {
-            'product': forms.Select(attrs={
-                'class': 'single-select w-100 mb-3 form-control'
-            }),
+            # 'product': forms.Select(attrs={
+            #     'class': 'single-select w-100 mb-3 form-control'
+            # }),
             'amount': forms.NumberInput(attrs={
                 'class': 'form-control'
             }),
-            'quantity': forms.NumberInput(attrs={
-                'class': 'form-control'
-            })
+            # 'quantity': forms.NumberInput(attrs={
+            #     'class': 'form-control'
+            # })
         }
 
     def save(self, commit=True):

@@ -8,7 +8,10 @@ from .forms import (AddProductForm, PurchaseForm)
 
 # @login_required
 def index(request):
-    return render(request, 'dashboard/dashboard.html')
+    all_category = ProductCategory.objects.all()
+    return render(request, 'dashboard/dashboard.html', {
+        'categories': all_category
+    })
 
 
 def statistics(request):
@@ -117,6 +120,33 @@ def edit_purchase(request, purchase_id):
     except Purchase.DoesNotExist:
         pass
     return redirect('dashboard:purchases')
+
+
+def purchase_delete(request):
+    try:
+        product_purchase = ProductPurchase.objects.get(pk=request.GET.get('pur_id'))
+        purchase = Purchase.objects.get(pk=request.GET.get('id'))
+        product_purchase.purchases.remove(purchase)
+    except (KeyError, Purchase.DoesNotExist, ProductPurchase.DoesNotExist):
+        pass
+    return redirect('dashboard:purchases')
+
+
+def sales(request):
+    all_sales = ProductSale.objects.all()
+    return render(request, 'dashboard/sale/saleList.html', {
+        'sales': all_sales
+    })
+
+
+def sales_delete(request):
+    try:
+        products_sale = ProductSale.objects.get(pk=request.GET.get('pro_id'))
+        sale = Sale.objects.get(pk=request.GET.get('id'))
+        products_sale.sales.remove(sale)
+    except (KeyError, ProductSale.DoesNotExist, Sale.DoesNotExist):
+        pass
+    return redirect('dashboard:sales')
 
 
 def signout(request):

@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.db.models.signals import post_save, pre_delete
+from django.dispatch import receiver
 
 
 def product_image_upload_path(instance, filename):
@@ -25,6 +27,7 @@ class Product(models.Model):
     category = models.ForeignKey(ProductCategory, on_delete=models.SET_NULL, null=True)
     code = models.CharField(max_length=50)
     image = models.ImageField(upload_to=product_image_upload_path)
+    quantity = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
@@ -42,12 +45,31 @@ class Sale(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
 
+@receiver(post_save, sender=Sale)
+def decrement_stock(sender, instance, created, **kwargs):
+    if created:
+        product = Product.objects.get(pk=instance.product.id)
+        if product.quantity >= instance.quantity:
+            product.quantity -= instance.quantity
+        else:
+            product.quantity = 0
+        product.save()
+
+
 class Purchase(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     amount = models.FloatField(default=0)
     quantity = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+
+
+@receiver(post_save, sender=Purchase)
+def increment_stock(sender, instance, created, **kwargs):
+    if created:
+        product = Product.objects.get(pk=instance.product.id)
+        product.quantity += instance.quantity
+        product.save()
 
 
 class ProductSale(models.Model):
