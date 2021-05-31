@@ -96,7 +96,7 @@
                              data-paddingleft="[0,0,0,0]"
 
                              style="z-index: 13; text-transform: uppercase; white-space: nowrap;outline:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; border-radius: 200px;">
-                            <button class="btn btn-primary"> Explore</button>
+                            <a href="{% url 'register' %}" class="btn btn-primary"> Explore</a>
                         </div>
                     </div>
                 </li>
@@ -189,7 +189,7 @@
                              data-paddingleft="[0,0,0,0]"
 
                              style="z-index: 13; text-transform: uppercase; white-space: nowrap;outline:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; border-radius: 200px;">
-                            <button class="btn btn-primary"> Login</button>
+                            <a href="{% url 'login' %}" class="btn btn-primary"> Login</a>
                         </div>
                     </div>
                 </li>
@@ -280,7 +280,7 @@
                              data-paddingleft="[0,0,0,0]"
 
                              style="z-index: 13; text-transform: uppercase; white-space: nowrap;outline:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; border-radius: 3px;">
-                            <button class="btn btn-primary"> Login</button>
+                            <a href="{% url 'login' %}" class="btn btn-primary"> Login</a>
                         </div>
 
                     </div>
@@ -357,7 +357,7 @@
                 <p>
                     Tracks sales, purchases and profit, and generates cash flow report of goods at any time
                 </p>
-                <button class="btn btn-light">Register</button>
+                <a href="{% url 'register' %}" class="btn btn-light">Register</a>
             </div>
         </div>
     </div>
