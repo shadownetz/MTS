@@ -96,6 +96,7 @@ class CashFlowAdmin(admin.ModelAdmin):
     model = CashFlow
     list_display = (
         'id', 'product_purchase', 'product_sale',
+        'product_purchase_amount', 'product_sale_amount',
         'created_at'
     )
 
@@ -103,6 +104,7 @@ class CashFlowAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'product_purchase', 'product_sale',
+                'product_purchase_amount', 'product_sale_amount',
             )
         }),
     )

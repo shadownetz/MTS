@@ -26,6 +26,8 @@ urlpatterns = [
     path('staffs', staffs, name='staffs'),
     path('staffs/manage', staff_manage, name='staffs_manage'),
 
+    path('cashflow', cash_flows, name='cash_flows'),
+
     path('logout', signout, name='logout'),
 
     path('api/purchase/add', add_purchase, name='api_purchase_add'),

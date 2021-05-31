@@ -470,7 +470,7 @@
                         url: "{% url 'dashboard:api_sale_add' %}",
                         type: 'POST',
                         data: {
-                            user_id: 1,
+                            user_id: {{ request.user.id }},
                             paid_in_cash,
                             sales: JSON.stringify(this.items)
                         },

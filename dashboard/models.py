@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.db.models.signals import post_save, pre_delete
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
@@ -96,4 +96,6 @@ class ProductPurchase(models.Model):
 class CashFlow(models.Model):
     product_purchase = models.ForeignKey(ProductPurchase, on_delete=models.SET_NULL, null=True)
     product_sale = models.ForeignKey(ProductSale, on_delete=models.SET_NULL, null=True)
+    product_purchase_amount = models.FloatField(default=0.0)
+    product_sale_amount = models.FloatField(default=0.0)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -14,6 +14,7 @@ def add_purchase(request):
         user = User.objects.get(pk=user_id)
         product_purchase = ProductPurchase(created_by=user)
         product_purchase.save()
+        cash_flow = CashFlow(product_purchase=product_purchase)
         for product in products:
             product_id = product['product_id']
             amount = float(product['amount'])
@@ -22,6 +23,8 @@ def add_purchase(request):
             product_purchase.purchases.create(
                 product=_product, amount=amount, quantity=quantity
             )
+            cash_flow.product_purchase_amount += amount*quantity
+        cash_flow.save()
         response['status'] = True
     return JsonResponse(data=response)
 
@@ -39,6 +42,7 @@ def add_sale(request):
             paid_in_cash=True if request.POST['paid_in_cash'] == 'true' else False
         )
         product_sale.save()
+        cash_flow = CashFlow(product_sale=product_sale)
         for sale in sales:
             print(sale)
             product_id = sale['product_id']
@@ -52,6 +56,8 @@ def add_sale(request):
                 product=product, amount=amount, quantity=quantity,
                 discount=discount, total=total
             )
+            cash_flow.product_sale_amount += total
+        cash_flow.save()
         response['status'] = True
     return JsonResponse(data=response)
 

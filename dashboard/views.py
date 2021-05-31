@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from home.models import User
 from .forms import (AddProductForm, PurchaseForm)
+# from functools import reduce
 
 
 # @login_required
@@ -173,6 +174,13 @@ def staff_manage(request):
         except User.DoesNotExist:
             pass
     return redirect('dashboard:staffs')
+
+
+def cash_flows(request):
+    _cash_flows = CashFlow.objects.all()
+    return render(request, 'dashboard/cashFlow.html', {
+        'cashFlows': _cash_flows
+    })
 
 
 def signout(request):

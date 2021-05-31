@@ -258,8 +258,8 @@
                                         <span class="nav-text">Staffs</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a  class="nav-link" href="javascript:void(0)">
+                                <li class="nav-item {% block nav-link-cash-flow %}{% endblock %}">
+                                    <a  class="nav-link" href="{% url 'dashboard:cash_flows' %}">
 										<span class="svg-icon nav-icon">
 											<i class="fas fa-file-invoice-dollar font-size-h4"></i>
 										</span>
