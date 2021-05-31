@@ -16,6 +16,7 @@
     <link href="{% static 'dashboard/assets/css/style.css@v=1.0.css' %}" rel="stylesheet" type="text/css" />
     <!--end::Global Theme Styles-->
 
+	<link href="{% static 'dashboard/assets/css/animate.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'dashboard/assets/api/pace/pace-theme-flat-top.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'dashboard/assets/api/mcustomscrollbar/jquery.mCustomScrollbar.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'dashboard/assets/api/datatable/jquery.dataTables.min.css' %}" rel="stylesheet" type="text/css" />
@@ -179,9 +180,9 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="nav-item">
-                                    <a  class="nav-link" href="index.html#catalogPurchase" role="button"
-                                        aria-expanded="false" aria-controls="catalogPurchase">
+                                <li class="nav-item {% block nav-link-purchases %}{% endblock %}">
+                                    <a  class="nav-link" href="javascript:void(0)" role="button"
+                                        aria-expanded="false" aria-controls="catalogPurchase"  data-toggle="collapse" data-target="#catalogPurchase">
 										<span class="svg-icon nav-icon">
 											<i class="fas fa-money-check-alt font-size-h4"></i>
 										</span>
@@ -191,7 +192,7 @@
                                     <div class="collapse nav-collapse" id="catalogPurchase"  data-parent="#accordion">
                                         <ul class="nav flex-column">
                                             <li class="nav-item">
-                                                <a href="javascript:void(0)" class="nav-link sub-nav-link">
+                                                <a href="{% url 'dashboard:purchases' %}" class="nav-link sub-nav-link {% block nav-link-purchases-list %}{% endblock %}">
 													<span class="svg-icon nav-icon d-flex justify-content-center">
 														<svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
 															<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -200,31 +201,31 @@
                                                     <span class="nav-text">List</span>
                                                 </a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a href="javascript:void(0)" class="nav-link sub-nav-link">
-													<span class="svg-icon nav-icon d-flex justify-content-center">
-														<svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
-															<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-														  </svg>
-													</span>
-                                                    <span class="nav-text">Manage Purchases</span>
-                                                </a>
-                                            </li>
+{#                                            <li class="nav-item">#}
+{#                                                <a href="javascript:void(0)" class="nav-link sub-nav-link">#}
+{#													<span class="svg-icon nav-icon d-flex justify-content-center">#}
+{#														<svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">#}
+{#															<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>#}
+{#														  </svg>#}
+{#													</span>#}
+{#                                                    <span class="nav-text">Manage Purchases</span>#}
+{#                                                </a>#}
+{#                                            </li>#}
 
 
                                         </ul>
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a  class="nav-link" data-toggle="collapse" href="index.html#order" role="button"
-                                        aria-expanded="false" aria-controls="order">
+                                    <a  class="nav-link" data-toggle="collapse" href="javascript:void(0)" role="button"
+                                        aria-expanded="false" data-target="#sales" aria-controls="order">
 										<span class="svg-icon nav-icon">
 											<i class="fas fa-clipboard-check font-size-h4" ></i>
 										</span>
                                         <span class="nav-text">Sales</span>
                                         <i class="fas fa-chevron-right fa-rotate-90"></i>
                                     </a>
-                                    <div class="collapse nav-collapse" id="order"  data-parent="#accordion">
+                                    <div class="collapse nav-collapse" id="sales"  data-parent="#accordion">
                                         <ul class="nav flex-column">
                                             <li class="nav-item">
                                                 <a href="javascript:void(0)" class="nav-link sub-nav-link">
@@ -420,22 +421,28 @@
 </div>
 <!--end::Main-->
 
+<input id="api_purchase_add_url" type="hidden" value="{% url 'dashboard:api_purchase_add' %}">
+<input id="api_products_fetch_url" type="hidden" value="{% url 'dashboard:api_products_fetch' %}">
+
 
 <script src="{% static 'dashboard/assets/js/plugin.bundle.min.js' %}"></script>
 <script src="{% static 'dashboard/assets/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'dashboard/assets/api/jqueryvalidate/jquery.validate.min.js' %}"></script>
 {#<script src="{% static 'dashboard/assets/api/apexcharts/apexcharts.js' %}"></script>#}
-<script src="{% static 'dashboard/assets/api/apexcharts/scriptcharts.js' %}"></script>
+{#<script src="{% static 'dashboard/assets/api/apexcharts/scriptcharts.js' %}"></script>#}
 <script src="{% static 'dashboard/assets/api/pace/pace.js' %}"></script>
 <script src="{% static 'dashboard/assets/api/mcustomscrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
 <script src="{% static 'dashboard/assets/api/quill/quill.min.js' %}"></script>
 <script src="{% static 'dashboard/assets/api/datatable/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'dashboard/assets/api/multiple-select/multiple-select.min.js' %}"></script>
 <script src="{% static 'dashboard/assets/js/sweetalert.js' %}"></script>
-<script src="{% static 'dashboard/assets/js/sweetalert1.js' %}"></script>
+{#<script src="{% static 'dashboard/assets/js/sweetalert1.js' %}"></script>#}
 <script src="{% static 'dashboard/assets/js/script.bundle.js' %}"></script>
+<script>window.$ = jQuery;</script>
+<script src="{% static 'dashboard/assets/custom-js/csrf_ajax.js' %}"></script>
+<script src="{% static 'dashboard/assets/custom-js/modules.js' %}"></script>
+<script src="{% static 'dashboard/assets/plugins/vue/vue.js' %}"></script>
 <script>
-    window.$ = jQuery;
 	jQuery(function() {
 		jQuery('.english-select').multipleSelect({
 			filter: true,
@@ -450,6 +457,14 @@
 	});
 	jQuery(document).ready( function () {
 		jQuery('#productUnitTable').dataTable( {
+			"pagingType": "simple_numbers",
+
+			"columnDefs": [ {
+				"targets"  : 'no-sort',
+				"orderable": false,
+			}]
+		});
+		jQuery('.productUnitTable').dataTable( {
 			"pagingType": "simple_numbers",
 
 			"columnDefs": [ {

@@ -1,0 +1,209 @@
+{% extends 'dashboard/base.html' %}
+{% block title %} Purchases {% endblock %}
+{% block page-title %}Add a new purchase{% endblock %}
+{% block nav-link-purchases %} active {% endblock %}
+{% block nav-link-purchases-list %} active {% endblock %}
+
+
+{% block content %}
+    <div id="purchaseAdd">
+        <div class="row">
+            <div class="col-lg-12 col-xl-12">
+                <div class="card card-custom gutter-b bg-transparent shadow-none border-0" >
+                    <div class="card-header align-items-center  border-bottom-dark px-0">
+                        <div class="card-title mb-0">
+                            <h3 class="card-label mb-0 font-weight-bold text-body">Add Purchases
+                            </h3>
+                        </div>
+                        <div class="icons d-flex">
+                            <a class="btn ml-2 p-0" href="{% url 'dashboard:products_add' %}">
+                            <span class="bg-secondary h-30px font-size-h5 w-30px d-flex align-items-center justify-content-center  rounded-circle shadow-sm ">
+                                <svg width="25px" height="25px" viewBox="0 0 16 16" class="bi bi-plus white" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                  </svg>
+                            </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-9 col-xl-9">
+                <div class="card card-custom gutter-b bg-white border-0" >
+                    <div class="card-body overflow-hidden">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label  class="text-body">Select Product</label>
+                                <fieldset class="form-group mb-3 d-flex">
+                                    <select class="form-control bg-white" v-model="selected_product">
+                                        {% for product in products %}
+                                            {% if forloop.counter == 1 %}
+                                                <option value="">Select a Product</option>
+                                            {% endif %}
+                                            <option value="{{ product.id }}">{{ product.name }}</option>
+                                        {% empty %}
+                                            <option value="" class="text-muted" selected>Add a Product from the products tab</option>
+                                        {% endfor %}
+                                    </select>
+                                    <a @click="addPurchase" href="javascript:void(0)" class="btn-secondary btn ml-2 white pt-1 pb-1 d-flex align-items-center justify-content-center">ADD</a>
+                                </fieldset>
+                            </div>
+                            <div class="col-12" v-if="purchases.length > 0">
+                                <div class="table-responsive">
+                                    <table class="table table-striped  text-body">
+                                        <thead>
+                                        <tr class="">
+                                            <th class="border-0  header-heading" scope="col">S/N</th>
+                                            <th class="border-0  header-heading" scope="col">Product</th>
+                                            <th class="border-0  header-heading" scope="col">Amount</th>
+                                            <th class="border-0  header-heading" scope="col">Quantity</th>
+                                            <th class="border-0  header-heading" scope="col">Subtotal</th>
+                                            <th class="border-0  header-heading text-right" scope="col">Clear</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="(purchase, idx) in purchases" :key="idx">
+                                            <td>[[idx+1]]</td>
+                                            <td v-if="all_products.filter(product=>product.id===Number.parseInt(purchase.product_id)).length > 0" class="">
+                                                [[ all_products.filter(product=>product.id===Number.parseInt(purchase.product_id))[0].name ]]
+                                            </td>
+                                            <td v-else>[[purchase.product_id]]</td>
+                                            <td class=" text-center">
+                                                <input v-model.number="purchase.amount" type="number" class="form-control" placeholder="Enter Amount">
+                                            </td>
+                                            <td class=" text-center">
+                                                <input v-model.number="purchase.quantity" type="number" class="form-control" placeholder="Enter Quantity">
+                                            </td>
+                                            <td class="">₦[[purchase.sub_total]]</td>
+                                            <td class="text-right">
+                                                <a href="javascript:void(0)" title="Delete" @click.prevent="purchases.splice(idx, 1)">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr class="">
+                                            <th class="border-0  header-heading" scope="col">Total</th>
+                                            <th class="border-0  header-heading" scope="col"></th>
+                                            <th class="border-0  header-heading" scope="col">₦[[totalAmount]]</th>
+                                            <th class="border-0  header-heading" scope="col"></th>
+                                            <th class="border-0  header-heading" scope="col">₦[[totalSubTotal]]</th>
+                                            <th class="border-0  header-heading text-right" scope="col">
+                                            </th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-3 col-xl-3">
+                <div class="card card-custom gutter-b bg-white border-0" >
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div>
+                                    <table class="table right-table mb-0">
+                                        <tbody>
+                                        <tr class="d-flex align-items-center justify-content-between" v-if="purchases.length > 0">
+                                            <th class="border-0 font-size-h5 mb-0 font-size-bold text-dark">
+
+                                                Total Amount
+
+                                            </th>
+                                            <td class="border-0 justify-content-end d-flex text-black-50 font-size-base">₦[[totalAmount]]</td>
+
+                                        </tr>
+                                        <tr class="d-flex align-items-center justify-content-between item-price" v-if="purchases.length > 0">
+                                            <th class="border-0 font-size-h5 mb-0 font-size-bold text-dark">
+                                                Net Total
+                                            </th>
+                                            <td class="border-0 justify-content-end d-flex text-dark font-size-base">₦[[totalSubTotal]]</td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center mt-5" v-if="purchases.length > 0">
+                                <button @click="savePurchase" class="btn btn-outline-primary">
+                                    <i class="fa fa-plus-circle"></i> Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(function(){
+            new Vue({
+                el: '#purchaseAdd',
+                delimiters: ['[[', ']]'],
+                data(){
+                    return {
+                        selected_product: '',
+                        purchases: [],
+                        all_products: []
+                    }
+                },
+                computed: {
+                    totalAmount(){
+                        return this.purchases.map(purchase=>purchase.amount).reduce((prev, curr)=>prev+curr)
+                    },
+                    totalSubTotal(){
+                        return this.purchases.map(purchase=>purchase.sub_total).reduce((prev, curr)=>prev+curr)
+                    }
+                },
+                methods: {
+                    async init_products(){
+                        this.all_products = (await new Product().fetch_products()).products;
+                    },
+                    addPurchase(){
+                        if(this.selected_product){
+                            if(this.purchases.filter(purchase=>purchase.product_id===this.selected_product).length > 0){
+                                return dispAlert('This product has already been added');
+                            }
+                            this.purchases.push(new Purchase(this.selected_product))
+                        }
+                    },
+                    async savePurchase(){
+                        const {purchases} = this;
+                        try{
+                            const response = await $.ajax({
+                                url: "{% url 'dashboard:api_purchase_add' %}",
+                                type: 'POST',
+                                data: {
+                                    user_id: {{ request.user.id }},
+                                    'purchases': JSON.stringify(purchases)
+                                },
+                                dataType: 'json',
+                            });
+                            if(response.status){
+                                dispAlert("Operation Successful", 'success');
+                                setTimeout(()=>{
+                                    window.location.href = "{% url 'dashboard:purchases' %}";
+                                }, 2000)
+                            }
+                        }catch (e) {
+                            dispAlert(e.message||e.messageText, 'error')
+                            console.log(e)
+                        }
+                    }
+                },
+                created(){
+                    this.init_products();
+                }
+            })
+        })
+    </script>
+{% endblock %}

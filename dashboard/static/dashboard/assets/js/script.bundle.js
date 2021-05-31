@@ -642,21 +642,21 @@ jQuery('.kt_notes_panel_close').on("click", function(e){
 });
 jQuery(document).on('click',function() {
   var sel22 = document.getElementById('typeselect');
-  console.log('value', sel22.value)
+  // console.log('value', sel22.value)
    /// show and hide div on the click by value basis
   //  var cliked = document.getElementById(sel.value);
-   for ( var i = 1; i <= 7; i++){
+    if(sel22){
+        for ( var i = 1; i <= 7; i++){
      if(sel22.value == i){
      console.log("aya rye" ,i);
       jQuery(`#${i}`).css("display", "block");
-      
+
      }else{
 
      jQuery(`#${i}`).css("display", "none");
    }
   }
-  
-
+    }
 
 } );
 

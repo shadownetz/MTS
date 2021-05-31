@@ -3,7 +3,7 @@ from django.contrib.auth import logout
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from .models import *
-from .forms import AddProductForm
+from .forms import (AddProductForm, PurchaseForm)
 
 
 # @login_required
@@ -85,6 +85,38 @@ def product_delete(request):
     except (KeyError, Product.DoesNotExist):
         pass
     return redirect('dashboard:products')
+
+
+def purchases(request):
+    all_purchases = ProductPurchase.objects.all()
+    return render(request, 'dashboard/purchase/purchaseList.html', {
+        'purchases': all_purchases
+    })
+
+
+def add_purchases(request):
+    all_products = Product.objects.all()
+    return render(request, 'dashboard/purchase/purchaseAdd.html', {
+        'products': all_products
+    })
+
+
+def edit_purchase(request, purchase_id):
+
+    try:
+        purchase = Purchase.objects.get(pk=purchase_id)
+        purchase_form = PurchaseForm(instance=purchase)
+        if request.method == 'POST':
+            purchase_form = PurchaseForm(request.POST, instance=purchase)
+            if purchase_form.is_valid():
+                purchase_form.save()
+        else:
+            return render(request, 'dashboard/purchase/purchaseEdit.html', {
+                'purchaseForm': purchase_form
+            })
+    except Purchase.DoesNotExist:
+        pass
+    return redirect('dashboard:purchases')
 
 
 def signout(request):

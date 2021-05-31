@@ -1,0 +1,61 @@
+{% extends 'dashboard/base.html' %}
+{% block title %} Purchases {% endblock %}
+{% block page-title %}Update Purchase{% endblock %}
+{% block nav-link-purchases %} active {% endblock %}
+{% block nav-link-purchases-list %} active {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12 col-xl-12">
+            <div class="card card-custom gutter-b bg-transparent shadow-none border-0" >
+                <div class="card-header align-items-center  border-bottom-dark px-0">
+                    <div class="card-title mb-0">
+                        <h3 class="card-label mb-0 font-weight-bold text-body">Update Purchase
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-12 col-xl-6">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                    <div class="card card-custom gutter-b bg-white border-0" >
+                        <div class="card-header border-0 align-items-center">
+                            <h3 class="card-label mb-0 font-weight-bold text-body">Product Information
+                            </h3>
+                        </div>
+                        <div class="card-body" id="printableTable">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="name">Product</label>
+                                            {{ purchaseForm.product }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_code">Amount</label>
+                                            {{ purchaseForm.amount }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Quantity</label>
+                                            {{ purchaseForm.quantity }}
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-5 mt-5">
+                                                <button type="submit" class="btn btn-primary">Update purchase</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

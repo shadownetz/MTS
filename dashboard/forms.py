@@ -1,5 +1,6 @@
 from django import forms
-from .models import Product
+from .models import (Product, Purchase)
+from datetime import datetime
 
 
 class AddProductForm(forms.ModelForm):
@@ -17,3 +18,27 @@ class AddProductForm(forms.ModelForm):
                 'class': 'form-control'
             }),
         }
+
+
+class PurchaseForm(forms.ModelForm):
+    class Meta:
+        model = Purchase
+        exclude = ['created_at']
+        widgets = {
+            'product': forms.Select(attrs={
+                'class': 'single-select w-100 mb-3 form-control'
+            }),
+            'amount': forms.NumberInput(attrs={
+                'class': 'form-control'
+            }),
+            'quantity': forms.NumberInput(attrs={
+                'class': 'form-control'
+            })
+        }
+
+    def save(self, commit=True):
+        instance = super(PurchaseForm, self).save(commit=False)
+        instance.updated_at = datetime.now()
+        if commit:
+            instance.save()
+        return instance
