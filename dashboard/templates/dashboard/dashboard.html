@@ -34,6 +34,12 @@
     <meta name="theme-color" content="#dccbee">
 
     {% block link %}{% endblock %}
+    <style>
+        .bg-pos{
+            background: rgb(250,250,250) url("{% static 'home/images/logo/mts_logo.png' %}") no-repeat center center!important;
+            background-size: contain!important;
+        }
+    </style>
     {% block style %}{% endblock %}
 </head>
 <!--end::Head-->
@@ -199,22 +205,30 @@
                         </div>
                         <div class="product-items">
                             <div class="row">
-                                <div class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6" v-for="(product, idx) in all_products" :key="'prod_list_'+idx">
-                                    <div class="productCard">
-                                        <div class="productThumb">
-                                            <img class="img-fluid" :src="product.image" alt="product image">
-                                        </div>
-                                        <div class="productContent">
-                                            <a href="javascript:void(0)" v-if="product.quantity > 0" @click="addItem(product)">
-                                                <i class="fa fa-bell"></i>
-                                                [[product.name.substr(0,15)]] (x[[product.quantity]]) [[product.code]]
-                                            </a>
-                                            <span class="text-muted" title="out of stock" v-else>
+                                <template v-if="all_products.length > 0">
+                                    <div class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6" v-for="(product, idx) in all_products" :key="'prod_list_'+idx">
+                                        <div class="productCard">
+                                            <div class="productThumb">
+                                                <img class="img-fluid" :src="product.image" alt="product image">
+                                            </div>
+                                            <div class="productContent">
+                                                <a href="javascript:void(0)" v-if="product.quantity > 0" @click="addItem(product)">
+                                                    <i class="fa fa-bell"></i>
+                                                    [[product.name.substr(0,15)]] (x[[product.quantity]]) [[product.code]]
+                                                </a>
+                                                <span class="text-muted" title="out of stock" v-else>
                                                 <i class="fa fa-ban"></i>  [[product.name]] -[[product.code]]
                                         </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </template>
+                                <template v-else>
+                                    <div class="col-12 text-center mt-5">
+                                        <h5>No Items have been added yet</h5>
+                                        <p>Click <a class="text-primary" href="{% url 'dashboard:products' %}">here</a> to add a new product</p>
+                                    </div>
+                                </template>
                             </div>
                         </div>
 
@@ -291,8 +305,8 @@
                         <div class="card-body" >
                             <div class="shop-profile">
                                 <div class="media">
-                                    <div class="bg-primary w-100px h-100px d-flex justify-content-center align-items-center">
-                                        <h2 class="mb-0 white">K</h2>
+                                    <div class="bg-pos bg-primary w-100px h-100px d-flex justify-content-center align-items-center">
+{#                                        <h2 class="mb-0 white">K</h2>#}
                                     </div>
                                     <div class="media-body ml-3">
                                         <h3 class="title font-weight-bold">The MTS POS</h3>
@@ -303,7 +317,7 @@
                                             {{ request.user.address|truncatewords:9 }}
                                         </p>
                                         <p class="countryname">
-                                            {% if request.user.is_admin %} Admin {% else %} SuperAdmin {% endif %}
+                                            {% if request.user.is_staff %} Admin {% else %} Staff {% endif %}
                                         </p>
                                     </div>
                                 </div>

@@ -27,7 +27,7 @@ class Product(models.Model):
     category = models.ForeignKey(ProductCategory, on_delete=models.SET_NULL, null=True)
     code = models.CharField(max_length=50)
     image = models.ImageField(upload_to=product_image_upload_path)
-    quantity = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 

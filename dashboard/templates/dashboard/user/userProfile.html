@@ -1,0 +1,201 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %} My Profile {% endblock %}
+{% block page-title %}Update Profile{% endblock %}
+{% block style %}
+    <style>
+        .customer-img:hover{
+            cursor: pointer;
+        }
+        #id_avatar{
+            visibility: hidden;
+            position: absolute;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-4 col-12  col-lg-4 col-xl-3">
+            <div class="card card-custom gutter-b bg-white border-0">
+                <div class="card-body">
+                    <label for="id_avatar" class="customer-img h-200px overflow-hidden rounded">
+                        <form id="form_avatar" role="form" action="{% url 'dashboard:avatar_update' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ avatar_form.avatar }}
+                            {#                            <input type="file" id="id_avatar" accept="image/*">#}
+                            {% if request.user.avatar %}
+                                <img class="img-fluid w-100 h-100 object-fit" src="{{ request.user.avatar.url }}" alt="profile image">
+                            {% else %}
+                                <img class="img-fluid w-100 h-100 object-fit" src="{% static 'dashboard/assets/images/user.png' %}" alt="profile1">
+                            {% endif %}
+                        </form>
+                    </label>
+                    <div class="d-flex justify-content-center">
+                        <div class="mt-3 w-75 bg-secondary rounded d-flex justify-content-between align-items-center p-3">
+                            <h6 class="mb-0 font-size-h6 white">Role</h6>
+                            <h6 class="mb-0 font-size-h6 white">
+                                {% if request.user.is_staff %}Admin{% else %}Staff{% endif %}
+                            </h6>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 col-12 col-lg-8 col-xl-9">
+            <div class="card card-custom gutter-b bg-white border-0">
+                <div class="card-header align-items-center  border-0 ">
+                    <div class="card-title mb-0">
+                        <h3 class="card-label mb-0 font-weight-bold text-primary">{{ request.user.name }}
+                        </h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-column justify-content-center h-100">
+                        <div class="row">
+                            <div class="col-6 col-sm-4 col-lg-6 col-xl-4">
+                                <div class="title mb-4">
+                                    <h4 class="font-size-h5 font-size-bold text-body">Email</h4>
+                                    <p class="mb-0 font-size-base text-dark">{{ request.user.email }}</p>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-4 col-lg-6 col-xl-4">
+                                <div class="title mb-4">
+                                    <h5 class="font-size-h5 font-size-bold text-body">Phone</h5>
+                                    <p class="mb-0 font-size-base text-dark">{{ request.user.phone }}</p>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-4 col-lg-6 col-xl-4">
+                                <div class="title mb-4">
+                                    <h5 class="font-size-h5 font-size-bold text-body">Address</h5>
+                                    <p class="mb-0 font-size-base text-dark">{{ request.user.address }}</p>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-4 col-lg-6 col-xl-4">
+                                <div class="title mb-4">
+                                    <h5 class="font-size-h5 font-size-bold text-body">Last Login</h5>
+                                    <p class="mb-0 font-size-base text-dark">{{ request.user.last_login }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card card-custom gutter-b bg-white border-0">
+                <div class="card-header border-0 align-items-center">
+                    <h3 class="card-label mb-2 font-weight-bold text-body">Profile Information
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-2 col-sm-3 col-12">
+                            <ul class="nav flex-column nav-pills mb-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <li class="nav-item" >
+                                    <a class="nav-link active" id="general-tab" data-toggle="pill" href="#general" role="tab" aria-controls="general" aria-selected="true">Basic</a>
+                                </li>
+                                <li class="nav-item" >
+                                    <a class="nav-link" id="pos-tab" data-toggle="pill" href="#pos" role="tab" aria-controls="pos" aria-selected="false">Security</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xl-9 col-lg-10 col-sm-9 col-12">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                                    {% if profile_form.errors %}
+                                        <span class="alert alert-primary">
+                                            <ul>
+                                                {% for error in profile_form.errors %}
+                                                    <li>{{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </span>
+                                    {% endif %}
+                                    <form action="{% url 'dashboard:profile_update' %}" method="post" role="form">
+                                        {% csrf_token %}
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="form-check-label">Name</label>
+                                                        {{ profile_form.name }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-check-label">Email</label>
+                                                        {{ profile_form.email }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="form-check-label">Phone</label>
+                                                        {{ profile_form.phone }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-check-label">Address</label>
+                                                        {{ profile_form.address }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Update Profile
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="pos" role="tabpanel" aria-labelledby="pos-tab">
+                                    <form action="{% url 'dashboard:password_update' %}" role="form" method="post">
+                                        {% csrf_token %}
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    {% if password_form.errors %}
+                                                        <div class="alert alert-primary">
+                                                            <ul>
+                                                                <li>Ensure you fill in all required fields</li>
+                                                                <li>Ensure both passwords are the same</li>
+                                                            </ul>
+                                                        </div>
+                                                    {% endif %}
+                                                    <p class="text-primary">
+                                                        For security reasons you will be required to re-login once your
+                                                        password has been updated
+                                                    </p>
+                                                    <div class="form-group">
+                                                        <label class="form-check-label">New Password</label>
+                                                        {{ password_form.password }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-check-label">Retype Password</label>
+                                                        {{ password_form.repassword }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <button type="submit" class="btn btn-warning">
+                                                    Update Password
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('#id_avatar').on('change', function(){
+            $('#form_avatar').submit()
+        })
+    </script>
+{% endblock %}

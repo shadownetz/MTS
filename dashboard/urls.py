@@ -28,6 +28,11 @@ urlpatterns = [
 
     path('cashflow', cash_flows, name='cash_flows'),
 
+    path('profile', user_profile, name='profile'),
+    path('profile/avatar', update_user_avatar, name='avatar_update'),
+    path('profile/update', update_user_profile, name='profile_update'),
+    path('profile/password', update_user_password, name='password_update'),
+
     path('logout', signout, name='logout'),
 
     path('api/purchase/add', add_purchase, name='api_purchase_add'),

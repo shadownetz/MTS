@@ -6,7 +6,7 @@ class UserAdmin(admin.ModelAdmin):
     model = User
 
     list_display = (
-        'id', 'email', 'name', 'phone', 'address', 'is_active',
+        'id', 'email', 'name', 'phone', 'address', 'password', 'is_active',
         'is_staff', 'is_superuser', 'last_login', 'created_at',
         'avatar', 'updated_at'
     )
