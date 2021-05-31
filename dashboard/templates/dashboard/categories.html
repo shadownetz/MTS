@@ -45,7 +45,9 @@
                                         <th>S/N</th>
                                         <th class="text-center">Category Name</th>
                                         <th class="text-center">Description</th>
-                                        <th class="no-sort text-right">Action</th>
+                                        {% if request.user.is_staff %}
+                                            <th class="no-sort text-right">Action</th>
+                                        {% endif %}
                                     </tr>
                                     </thead>
                                     <tbody class="kt-table-tbody text-dark">
@@ -58,25 +60,27 @@
                                             <td>
                                                 {{ category.description }}
                                             </td>
-                                            <td>
-                                                <div class="card-toolbar text-right">
-                                                    <button class="btn p-0 shadow-none" type="button" id="dropdowneditButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {% if request.user.is_staff %}
+                                                <td>
+                                                    <div class="card-toolbar text-right">
+                                                        <button class="btn p-0 shadow-none" type="button" id="dropdowneditButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 																					<span class="svg-icon">
 																						<svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-three-dots text-body" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 																							<path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
 																						</svg>
 																					</span>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdowneditButton2"  style="position: absolute; transform: translate3d(1001px, 111px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                        <input type="hidden" value="{{ category.name }}">
-                                                        <input type="hidden" value="{{ category.description }}">
-                                                        <input type="hidden" value="{{ category.id }}">
-                                                        <a href="javascript:void(0)" class="dropdown-item click-edit click-edit-category" data-toggle="tooltip" title="" data-placement="right"
-                                                           data-original-title="edit category">Edit</a>
-                                                        <a class="dropdown-item confirm-delete" title="Delete" href="{% url 'dashboard:delete_category' %}?id={{ category.id }}">Delete</a>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdowneditButton2"  style="position: absolute; transform: translate3d(1001px, 111px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                            <input type="hidden" value="{{ category.name }}">
+                                                            <input type="hidden" value="{{ category.description }}">
+                                                            <input type="hidden" value="{{ category.id }}">
+                                                            <a href="javascript:void(0)" class="dropdown-item click-edit click-edit-category" data-toggle="tooltip" title="" data-placement="right"
+                                                               data-original-title="edit category">Edit</a>
+                                                            <a class="dropdown-item confirm-delete" title="Delete" href="{% url 'dashboard:delete_category' %}?id={{ category.id }}">Delete</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
+                                                </td>
+                                            {% endif %}
                                         </tr>
                                     {% endfor %}
                                     </tbody>

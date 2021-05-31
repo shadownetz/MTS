@@ -52,7 +52,9 @@
                                             <th class="text-center">Discount (%)</th>
                                             <th class="text-center">Total</th>
                                             <th class="text-center">Created</th>
-                                            <th class="no-sort text-right">Action</th>
+                                            {% if request.user.is_staff %}
+                                                <th class="no-sort text-right">Action</th>
+                                            {% endif %}
                                         </tr>
                                         </thead>
                                         <tbody class="kt-table-tbody text-dark">
@@ -82,22 +84,24 @@
                                                 <td class="text-center">
                                                     {{ sub_sale.created_at }}
                                                 </td>
-                                                <td>
-                                                    <div class="card-toolbar text-right">
-                                                        <button class="btn p-0 shadow-none" type="button" id="dropdowneditButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {% if request.user.is_staff %}
+                                                    <td>
+                                                        <div class="card-toolbar text-right">
+                                                            <button class="btn p-0 shadow-none" type="button" id="dropdowneditButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 																					<span class="svg-icon">
 																						<svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-three-dots text-body" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 																							<path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
 																						</svg>
 																					</span>
-                                                        </button>
-                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdowneditButton"  style="position: absolute; transform: translate3d(1001px, 111px, 0px); top: 0px; left: 0px; will-change: transform;">
-{#                                                            <a href="{% url 'dashboard:purchases_edit' sale.id %}" class="dropdown-item click-edit" id="click-edit2" data-toggle="tooltip" title="update product" data-placement="right"#}
-{#                                                            >Edit</a>#}
-                                                            <a class="dropdown-item confirm-delete" title="Delete" href="{% url 'dashboard:sales_delete' %}?id={{ sub_sale.id }}&pro_id={{ sale.id }}">Delete</a>
+                                                            </button>
+                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdowneditButton"  style="position: absolute; transform: translate3d(1001px, 111px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                                {#                                                            <a href="{% url 'dashboard:purchases_edit' sale.id %}" class="dropdown-item click-edit" id="click-edit2" data-toggle="tooltip" title="update product" data-placement="right"#}
+                                                                {#                                                            >Edit</a>#}
+                                                                <a class="dropdown-item confirm-delete" title="Delete" href="{% url 'dashboard:sales_delete' %}?id={{ sub_sale.id }}&pro_id={{ sale.id }}">Delete</a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
+                                                    </td>
+                                                {% endif %}
                                             </tr>
                                         {% endfor %}
                                         </tbody>
