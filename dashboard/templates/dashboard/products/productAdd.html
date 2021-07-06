@@ -159,7 +159,7 @@
         Quagga.onDetected((codeResult)=>{
             console.log(codeResult);
             if(codeResult.code){
-                $('#id_code').val(codeResult.code);
+                $('#id_code').val('#'+codeResult.code);
             }
             Quagga.stop();
             barcodeModal.modal('hide');

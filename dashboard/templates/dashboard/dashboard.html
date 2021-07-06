@@ -306,7 +306,7 @@
                             <div class="shop-profile">
                                 <div class="media">
                                     <div class="bg-pos bg-primary w-100px h-100px d-flex justify-content-center align-items-center">
-{#                                        <h2 class="mb-0 white">K</h2>#}
+                                        {#                                        <h2 class="mb-0 white">K</h2>#}
                                     </div>
                                     <div class="media-body ml-3">
                                         <h3 class="title font-weight-bold">The MTS POS</h3>
@@ -390,6 +390,7 @@
 </div>
 
 <input id="api_products_fetch_url" type="hidden" value="{% url 'dashboard:api_products_fetch' %}">
+<input id="api_admins_fetch_url" type="hidden" value="{% url 'dashboard:api_admins_get' %}">
 
 
 <script src="{% static 'dashboard/assets/js/plugin.bundle.min.js' %}"></script>
@@ -480,7 +481,7 @@
             async saveSale(){
                 try{
                     const {paid_in_cash} = this;
-                    const response = await $.ajax({
+                    let response = await $.ajax({
                         url: "{% url 'dashboard:api_sale_add' %}",
                         type: 'POST',
                         data: {
@@ -491,9 +492,30 @@
                         dataType: 'json',
                     });
                     if(response.status){
-                        dispAlert("Operation Successful", 'success');
                         this.items = [];
-                        this.fetchProducts()
+                        dispAlert("Operation Successful", 'success');
+                        await this.fetchProducts();
+                        // Send sms notification for products
+                        // that are out of stock
+                        const products_names = this.products
+                            .filter(product=>product.quantity <= 0)
+                            .map(product=>product.name);
+                        if(products_names.length > 0){
+                            const message = `The products ${products_names.join(',')} are out of stock`;
+                            response = await User.getAdmins();
+                            if(response.status){
+                                const recipients = response.admins.map(admin=>admin.phone).join(',');
+                                const sms_payload = {message, recipients};
+                                response = await (new SMS().sendAlert(sms_payload));
+                                if(response.status){
+                                    console.log("All operations completed successfully!")
+                                }
+                            }else{
+                                console.error("An unknown error occurred while fetching admins")
+                            }
+                        }
+                    }else{
+                        throw new Error("An unknown error occurred while adding sales");
                     }
                 }catch (e) {
                     dispAlert(e.message||e.messageText, 'error');

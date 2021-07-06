@@ -44,7 +44,6 @@ def add_sale(request):
         product_sale.save()
         cash_flow = CashFlow(product_sale=product_sale)
         for sale in sales:
-            print(sale)
             product_id = sale['product_id']
             amount = float(sale['amount'])
             quantity = int(sale['quantity'])
@@ -80,5 +79,17 @@ def get_products(request):
                 'image': product.image.url,
                 'created_at': product.created_at,
                 'updated_at': product.updated_at
+            })
+    return JsonResponse(data=response)
+
+
+def get_admins(request):
+    response = {'status': True, 'data': []}
+    if request.method == 'GET':
+        admins = User.objects.filter(is_staff=True)
+        for admin in admins:
+            response['data'].append({
+                'name': admin.name,
+                'phone': admin.phone
             })
     return JsonResponse(data=response)

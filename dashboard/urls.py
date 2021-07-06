@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import *
-from .apis import (add_purchase, get_products, add_sale)
+from .apis import (add_purchase, get_products, add_sale, get_admins)
 
 app_name = 'dashboard'
 
@@ -39,4 +39,6 @@ urlpatterns = [
     path('api/products/fetch', get_products, name='api_products_fetch'),
 
     path('api/sale/add', add_sale, name='api_sale_add'),
+
+    path('user/admins/get', get_admins, name="api_admins_get")
 ]
