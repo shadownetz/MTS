@@ -156,6 +156,15 @@
         const barcodeModal = $('#productBarcodeContainer');
         const take_snap_btn = $('#snap_barcode');
 
+        Quagga.onDetected((result)=>{
+            console.log(result);
+            if(result.codeResult){
+                $('#id_code').val('#'+result.codeResult.code);
+                Quagga.stop();
+                barcodeModal.modal('hide');
+            }
+        });
+
         barcodeModal.on('shown.bs.modal', ()=>{
             Quagga.init({
                 inputStream : {
@@ -186,14 +195,7 @@
                 console.log("Scanner initialization finished. Ready to start");
             })
         });
-        Quagga.onDetected((result)=>{
-            console.log(result);
-            if(result.codeResult){
-                $('#id_code').val('#'+result.codeResult.code);
-                Quagga.stop();
-                barcodeModal.modal('hide');
-            }
-        });
+
         barcodeModal.on('hide.bs.modal', ()=>{
             Quagga.stop();
         });
