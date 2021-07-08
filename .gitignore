@@ -2,3 +2,8 @@ media
 db.sqlite3
 venv
 .idea
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
