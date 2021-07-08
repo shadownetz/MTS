@@ -156,23 +156,21 @@
         const barcodeModal = $('#productBarcodeContainer');
         const take_snap_btn = $('#snap_barcode');
 
-        Quagga.onDetected((codeResult)=>{
-            console.log(codeResult);
-            if(codeResult.code){
-                $('#id_code').val('#'+codeResult.code);
-            }
-            Quagga.stop();
-            barcodeModal.modal('hide');
-        });
         barcodeModal.on('shown.bs.modal', ()=>{
             Quagga.init({
                 inputStream : {
                     name : "Live",
                     type : "LiveStream",
-                    target: document.querySelector('#barcode_box')    // Or '#yourElement' (optional)
+                    target: document.querySelector('#barcode_box'),    // Or '#yourElement' (optional)
+                    numOfWorkers: navigator.hardwareConcurrency
                 },
                 decoder : {
-                    readers : ["code_128_reader"],
+                    readers : [
+                        "code_128_reader", "ean_reader", "ean_8_reader",
+                        "code_39_reader", "code_39_vin_reader", "codabar_reader",
+                        "upc_reader", "upc_e_reader", "i2of5_reader",
+                        "2of5_reader", "code_93_reader"
+                    ],
                     debug: {
                         drawBoundingBox: true,
                         showFrequency: false,
@@ -187,6 +185,14 @@
                 }
                 console.log("Scanner initialization finished. Ready to start");
             })
+        });
+        Quagga.onDetected((result)=>{
+            console.log(result);
+            if(result.codeResult){
+                $('#id_code').val('#'+result.codeResult.code);
+                Quagga.stop();
+                barcodeModal.modal('hide');
+            }
         });
         barcodeModal.on('hide.bs.modal', ()=>{
             Quagga.stop();
