@@ -141,7 +141,7 @@
 
 
 {% block script %}
-    <script src="{% static 'dashboard/assets/custom-js/quagga.min.js' %}"></script>
+    <script src="{% static 'dashboard/assets/custom-js/quagga.js' %}"></script>
     <script>
         $('#id_image').on('change', function(event){
             const file = event.target.files[0];
@@ -165,6 +165,7 @@
             }
         });
 
+
         barcodeModal.on('shown.bs.modal', ()=>{
             Quagga.init({
                 inputStream : {
@@ -173,17 +174,16 @@
                     target: document.querySelector('#barcode_box'),    // Or '#yourElement' (optional)
                     numOfWorkers: navigator.hardwareConcurrency
                 },
+                // "upc_reader", "upc_e_reader",
+                {#"code_128_reader", "ean_reader", "ean_8_reader",#}
+                {#        "code_39_reader", "code_39_vin_reader", "codabar_reader",#}
+                {#        "i2of5_reader",#}
+                {#        "2of5_reader", "code_93_reader"#}
                 decoder : {
                     readers : [
-                        "code_128_reader", "codabar_reader",
-                        "2of5_reader", "code_93_reader"
-                    ],
-                    debug: {
-                        drawBoundingBox: true,
-                        showFrequency: false,
-                        drawScanline: true,
-                        showPattern: true
-                    }
+                        "code_128_reader", "ean_reader", "ean_8_reader",
+                        "upc_reader", "upc_e_reader",
+                    ]
                 }
             }, function(err) {
                 if (err) {
@@ -191,7 +191,8 @@
                     return
                 }
                 console.log("Scanner initialization finished. Ready to start");
-            })
+                Quagga.start();
+            });
         });
 
         barcodeModal.on('hide.bs.modal', ()=>{
